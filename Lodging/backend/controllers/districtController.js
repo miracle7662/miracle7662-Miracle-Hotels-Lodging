@@ -71,15 +71,15 @@ const getDistrictById = (req, res) => {
 
 // Create new district
 const createDistrict = (req, res) => {
-  const { distrcitname, ditcrictcode, stateid, description } = req.body;
+  const { distrcitname, ditcrictcode, stateid,status, description } = req.body;
   
   if (!distrcitname || !ditcrictcode || !stateid) {
     return res.status(400).json({ error: 'District name, code, and state ID are required' });
   }
 
   try {
-    const stmt = db.prepare('INSERT INTO ldg_districts (distrcitname, ditcrictcode, stateid, description) VALUES (?, ?, ?, ?)');
-    const result = stmt.run(distrcitname, ditcrictcode, stateid, description);
+    const stmt = db.prepare('INSERT INTO ldg_districts (distrcitname, ditcrictcode, stateid, status,description) VALUES (?, ?, ?,?, ?)');
+    const result = stmt.run(distrcitname, ditcrictcode, stateid,status, description);
     
     // Get the newly created district with all fields
     const newDistrict = db.prepare(`
@@ -101,7 +101,7 @@ const createDistrict = (req, res) => {
 
 // Update district
 const updateDistrict = (req, res) => {
-  const { distrcitname, ditcrictcode, stateid, description } = req.body;
+  const { distrcitname, ditcrictcode, stateid,status, description } = req.body;
   const { id } = req.params;
 
   if (!distrcitname || !ditcrictcode || !stateid) {
@@ -109,8 +109,8 @@ const updateDistrict = (req, res) => {
   }
 
   try {
-    const stmt = db.prepare('UPDATE ldg_districts SET distrcitname = ?, ditcrictcode = ?, stateid = ?, description = ?, updated_date = CURRENT_TIMESTAMP WHERE distrcitid = ?');
-    const result = stmt.run(distrcitname, ditcrictcode, stateid, description, id);
+    const stmt = db.prepare('UPDATE ldg_districts SET distrcitname = ?, ditcrictcode = ?, stateid = ?, description = ?, status=?, updated_date = CURRENT_TIMESTAMP WHERE distrcitid = ?');
+    const result = stmt.run(distrcitname, ditcrictcode, stateid, description,status, id);
     
     if (result.changes > 0) {
       res.json({ message: 'District updated successfully!' });
