@@ -11,6 +11,7 @@ const getAllStates = (req, res) => {
         s.statecapital,
         s.countryid,
         s.status,
+        s.created_date, -- Explicitly include created_date
         c.countryname as country_name 
       FROM ldg_states s 
       LEFT JOIN ldg_countries c ON s.countryid = c.countryid 
@@ -21,7 +22,7 @@ const getAllStates = (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch states', details: error.message });
   }
-};
+};;
 
 // Get states by country
 const getStatesByCountry = (req, res) => {
@@ -84,6 +85,8 @@ const createState = (req, res) => {
       WHERE s.stateid = ?
     `).get(result.lastInsertRowid);
     
+  
+    console.log('New state created with created_date:', newState.created_date);
     res.status(201).json({
       message: 'State created successfully!',
       state: newState
@@ -94,6 +97,28 @@ const createState = (req, res) => {
 };
 
 // Update state
+// const updateState = (req, res) => {
+//   const { statename, statecode, statecapital, countryid } = req.body;
+//   const { id } = req.params;
+
+//   if (!statename || !statecode || !countryid) {
+//     return res.status(400).json({ error: 'State name, code, and country ID are required' });
+//   }
+
+//   try {
+//     const stmt = db.prepare('UPDATE ldg_states SET statename = ?, statecode = ?, statecapital = ?, countryid = ?, updated_date = CURRENT_TIMESTAMP WHERE stateid = ?');
+//     const result = stmt.run(statename, statecode, statecapital, countryid, id);
+    
+//     if (result.changes > 0) {
+//       res.json({ message: 'State updated successfully!' });
+//     } else {
+//       res.status(404).json({ error: 'State not found' });
+//     }
+//   } catch (error) {
+//     res.status(500).json({ error: 'Failed to update state', details: error.message });
+//   }
+// };
+
 const updateState = (req, res) => {
   const { statename, statecode, statecapital, countryid } = req.body;
   const { id } = req.params;
@@ -107,7 +132,14 @@ const updateState = (req, res) => {
     const result = stmt.run(statename, statecode, statecapital, countryid, id);
     
     if (result.changes > 0) {
-      res.json({ message: 'State updated successfully!' });
+      // Fetch the updated state including created_date
+      const updatedState = db.prepare(`
+        SELECT s.*, c.countryname as country_name 
+        FROM ldg_states s 
+        LEFT JOIN ldg_countries c ON s.countryid = c.countryid 
+        WHERE s.stateid = ?
+      `).get(id);
+      res.json({ message: 'State updated successfully!', state: updatedState });
     } else {
       res.status(404).json({ error: 'State not found' });
     }
@@ -140,3 +172,6 @@ module.exports = {
   updateState,
   deleteState
 };
+
+
+

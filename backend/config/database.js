@@ -2,8 +2,8 @@ const Database = require('better-sqlite3');
 const path = require('path');
 
 // Database file path - Store in D:\miresto folder
-const dbPath = path.join('D:', 'miresto', 'lodging.db');
-
+// const dbPath = path.join('D:', 'miresto', 'lodging.db');
+const dbPath = path.join('D:', 'Database', 'lodging.db');
 // Create database connection
 const db = new Database(dbPath);
 
