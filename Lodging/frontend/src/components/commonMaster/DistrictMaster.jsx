@@ -16,21 +16,20 @@ import {
   Label,
   Input,
   FormFeedback,
-  Alert,
   Spinner,
   Badge
 } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { API_BASE_URL } from '../../../config/api';
+import { API_BASE_URL } from '@/config/api';
 
 const DistrictMaster = () => {
   const [districts, setDistricts] = useState([]);
   const [states, setStates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(false);
-  const [modalMode, setModalMode] = useState('create'); // 'create' or 'edit'
+  const [modalMode, setModalMode] = useState('create');
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -40,9 +39,7 @@ const DistrictMaster = () => {
     register,
     handleSubmit,
     reset,
-    setValue,
-    formState: { errors },
-    watch
+    formState: { errors }
   } = useForm();
 
   // Fetch all districts
@@ -81,7 +78,7 @@ const DistrictMaster = () => {
     
     if (mode === 'edit' && district) {
       reset({
-        district_name: district.district_name || district.distrcitname,
+        district_name: district.district_name || district.district_name,
         districtcode: district.districtcode,
         stateid: district.stateid,
         description: district.description || '',
@@ -90,7 +87,7 @@ const DistrictMaster = () => {
     } else {
       reset({
         district_name: '',
-        ditcrictcode: '',
+        districtcode: '',
         stateid: '',
         description: '',
         status: 1
@@ -113,7 +110,7 @@ const DistrictMaster = () => {
     
     try {
       const payload = {
-        distrcitname: data.district_name,
+        district_name: data.district_name,
         districtcode: data.districtcode,
         stateid: parseInt(data.stateid),
         description: data.description,
@@ -207,8 +204,8 @@ const DistrictMaster = () => {
                         {districts.map((district, index) => (
                           <tr key={district.districtid}>
                             <td>{index + 1}</td>
-                            <td>{district.district_name || district.distrcitname}</td>
-                            <td>{district.ditcrictcode}</td>
+                            <td>{district.district_name}</td>
+                            <td>{district.districtcode}</td>
                             <td>{district.state_name}</td>
                             <td>{district.country_name}</td>
                             <td>{getStatusBadge(district.status)}</td>
@@ -274,8 +271,8 @@ const DistrictMaster = () => {
                       {...register('districtcode', { required: 'District code is required' })}
                       invalid={errors.districtcode ? true : false}
                     />
-        {errors.districtcode && (
-                      <FormFeedback>{errors.ditcrictcode.message}</FormFeedback>
+                    {errors.districtcode && (
+                      <FormFeedback>{errors.districtcode.message}</FormFeedback>
                     )}
                   </FormGroup>
                 </Col>
@@ -284,30 +281,82 @@ const DistrictMaster = () => {
                 <Col md={6}>
                   <FormGroup>
                     <Label for="stateid">State <span className="text-danger">*</span></Label>
-        <Input
-          type="select"
-          id="stateid"
-          {...register('stateid', { required: 'State is required' })}
-          invalid={errors.stateid ? true : false}
-        >
-          <option value="">Select State</option>
-          {states.map(state => (
-            <option key={state.stateid} value={state.stateid}>
-              {state.statename}
-            </option>
-          ))}
-        </Input>
-      </FormGroup>
-    </Col>
-  </Row>
-</ModalBody>
-<ModalFooter>
-  <Button color="secondary" onClick={closeModal}>Cancel</Button>
-  <Button color="primary" type="submit" disabled={submitting}>
-    {submitting ? <Spinner size="sm" /> : modalMode === 'create' ? 'Add District' : 'Update District'}
-  </Button>
-</ModalFooter>
-</Form>
-</Modal>
-</div>
-</React.Fragment>
+                    <Input
+                      type="select"
+                      id="stateid"
+                      {...register('stateid', { required: 'State is required' })}
+                      invalid={errors.stateid ? true : false}
+                    >
+                      <option value="">Select State</option>
+                      {states.map(state => (
+                        <option key={state.stateid} value={state.stateid}>
+                          {state.statename}
+                        </option>
+                      ))}
+                    </Input>
+                    {errors.stateid && (
+                      <FormFeedback>{errors.stateid.message}</FormFeedback>
+                    )}
+                  </FormGroup>
+                </Col>
+                <Col md={6}>
+                  <FormGroup>
+                    <Label for="status">Status</Label>
+                    <Input
+                      type="select"
+                      id="status"
+                      {...register('status')}
+                    >
+                      <option value={1}>Active</option>
+                      <option value={0}>Inactive</option>
+                    </Input>
+                  </FormGroup>
+                </Col>
+              </Row>
+              <Row>
+                <Col md={12}>
+                  <FormGroup>
+                    <Label for="description">Description</Label>
+                    <Input
+                      type="textarea"
+                      id="description"
+                      rows={3}
+                      {...register('description')}
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
+            </ModalBody>
+            <ModalFooter>
+              <Button color="secondary" onClick={closeModal}>Cancel</Button>
+              <Button color="primary" type="submit" disabled={submitting}>
+                {submitting ? <Spinner size="sm" /> : modalMode === 'create' ? 'Add District' : 'Update District'}
+              </Button>
+            </ModalFooter>
+          </Form>
+        </Modal>
+
+        {/* Delete Confirmation Modal */}
+        <Modal isOpen={deleteModal} toggle={() => setDeleteModal(false)}>
+          <ModalHeader toggle={() => setDeleteModal(false)}>
+            Confirm Delete
+          </ModalHeader>
+          <ModalBody>
+            Are you sure you want to delete the district "{districtToDelete?.district_name}"?
+            This action cannot be undone.
+          </ModalBody>
+          <ModalFooter>
+            <Button color="secondary" onClick={() => setDeleteModal(false)}>
+              Cancel
+            </Button>
+            <Button color="danger" onClick={handleDelete}>
+              Delete
+            </Button>
+          </ModalFooter>
+        </Modal>
+      </div>
+    </React.Fragment>
+  );
+};
+
+export default DistrictMaster;

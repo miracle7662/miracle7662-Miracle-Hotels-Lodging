@@ -1,13 +1,13 @@
 import React from 'react';
-import CountryMaster from '@/components/commonMaster/CountryMaster';
+import DistrictMaster from '@/components/commonMaster/DistrictMaster';
 
 const Districts: React.FC = () => {
   return (
     <div>
       <h2>District Master</h2>
-      <p>District management functionality coming soon...</p>
+      <DistrictMaster />
     </div>
   );
 };
 
-export default Districts; 
+export default Districts;
