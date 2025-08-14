@@ -2,13 +2,13 @@ const Database = require('better-sqlite3');
 const path = require('path');
 
 // Database file path - Store in D:\miresto folder
-<<<<<<< Updated upstream
+
 // const dbPath = path.join('D:', 'miresto', 'lodging.db');
-const dbPath = path.join('D:', 'Database', 'lodging.db');
-=======
+//const dbPath = path.join('D:', 'Database', 'lodging.db');
+
 //const dbPath = path.join('D:', 'miresto', 'lodging.db');
 const dbPath = path.join('E:', 'ReactHotelData', 'lodging.db');
->>>>>>> Stashed changes
+
 // Create database connection
 const db = new Database(dbPath);
 

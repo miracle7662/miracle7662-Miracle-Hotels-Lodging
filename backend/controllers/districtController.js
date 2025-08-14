@@ -134,33 +134,50 @@ const updateDistrict = (req, res) => {
 
 // Delete district (soft delete)
 const deleteDistrict = (req, res) => {
-  try {
-    const districtId = req.params.id;
-    console.log(`Attempting to delete district with ID: ${districtId}`);
 
-    // Check if district exists and is active
-    const existingDistrict = db.prepare('SELECT distrcitid, status FROM ldg_districts WHERE distrcitid = ?').get(districtId);
-    if (!existingDistrict) {
-      return res.status(404).json({ error: 'District not found' });
-    }
-    if (existingDistrict.status === 0) {
-      return res.status(400).json({ error: 'District is already deleted' });
-    }
-
-    // Perform soft delete
-    const stmt = db.prepare('UPDATE ldg_districts SET status = 0, updated_date = CURRENT_TIMESTAMP WHERE distrcitid = ?');
-    const result = stmt.run(districtId);
+try {
+    const stmt = db.prepare('Delete from ldg_districts where distrcitid = ?');
+    const result = stmt.run(req.params.id);
     
     if (result.changes > 0) {
-      console.log(`District ${districtId} soft deleted successfully at ${new Date().toISOString()}`);
-      res.json({ message: 'District deleted successfully!', districtId });
+      res.json({ message: 'District Deleted successfully!' });
     } else {
-      res.status(404).json({ error: 'District not found during delete operation' });
+      res.status(404).json({ error: 'State not found' });
     }
   } catch (error) {
-    console.error('Error deleting district:', error);
-    res.status(500).json({ error: 'Failed to delete district', details: error.message });
+    res.status(500).json({ error: 'Failed to delete state', details: error.message });
   }
+
+
+
+
+  // try {
+  //   const districtId = req.params.id;
+  //   console.log(`Attempting to delete district with ID: ${districtId}`);
+
+  //   // // Check if district exists and is active
+  //   // const existingDistrict = db.prepare('SELECT distrcitid, status FROM ldg_districts WHERE distrcitid = ?').get(districtId);
+  //   // if (!existingDistrict) {
+  //   //   return res.status(404).json({ error: 'District not found' });
+  //   // }
+  //   // if (existingDistrict.status === 0) {
+  //   //   return res.status(400).json({ error: 'District is already deleted' });
+  //   // }
+
+  //   // Perform soft delete
+  //   const stmt = db.prepare('delete from ldg_districts  WHERE distrcitid = ?');
+  //   const result = stmt.run(districtId);
+    
+  //   if (result.changes > 0) {
+  //     console.log(`District ${districtId} soft deleted successfully at ${new Date().toISOString()}`);
+  //     res.json({ message: 'District deleted successfully!', districtId });
+  //   } else {
+  //     res.status(404).json({ error: 'District not found during delete operation' });
+  //   }
+  // } catch (error) {
+  //   console.error('Error deleting district:', error);
+  //   res.status(500).json({ error: 'Failed to delete district', details: error.message });
+  // }
 };
 
 module.exports = {
