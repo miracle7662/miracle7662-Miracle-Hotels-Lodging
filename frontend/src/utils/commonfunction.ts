@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 
 export interface CountryItem {
   countryid: number;
-  country_name: string;
+  countryname: string;
   country_code: string;
   status: number | string;
 
@@ -14,15 +14,15 @@ export interface CountryItem {
 export interface StateItem {
   
   stateid: number;
-  state_name: string;
+  statename: string;
   status: number | string;
 
   
 } 
 
 export interface DistrictItem {
-  districtid: number;
-  district_name: string;
+  distrcitid: number;
+  distrcitname: string;
   stateid: number;
   status: number | string;
 }
@@ -98,7 +98,7 @@ export const fetchDistricts = async (
     const data: DistrictItem[] = await res.json();
     setDistricts(data);
     if (data.length > 0 && !currentDistrictId && setDistrictId) {
-      setDistrictId(data[0].districtid);
+      setDistrictId(data[0].distrcitid);
     }
   } catch (err) {
     toast.error('Failed to fetch districts');
