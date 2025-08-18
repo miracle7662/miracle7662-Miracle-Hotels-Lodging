@@ -845,7 +845,7 @@ const CountryMaster = () => {
             </div>
           ) : (
             <>
-              <div className="table-responsive" style={{ maxHeight: '500px', overflowY: 'auto' }}>
+              <div className="table-responsive" style={{ maxHeight: '370px', overflowY: 'auto' }}>
                 <Table hover className="mb-0">
                   <thead className="table-light sticky-top bg-white" style={{ zIndex: 1 }}>
                                          <tr>

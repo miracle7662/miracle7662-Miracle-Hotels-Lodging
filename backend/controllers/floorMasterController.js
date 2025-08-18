@@ -176,3 +176,15 @@ module.exports = {
   getFloorsByHotelId,
   getFloorsForCurrentUser
 }; 
+
+
+
+
+
+
+
+
+
+
+
+

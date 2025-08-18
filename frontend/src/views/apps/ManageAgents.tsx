@@ -28,21 +28,21 @@ interface Agent {
 }
 
 interface Country {
-  id: number
-  name: string
-  code: string
+  countryid: number
+  countryname: string
+  countrycode: string
 }
 
 interface State {
-  id: number
-  name: string
-  country_id: number
+  stateid: number
+  statename: string
+  countryid: number
 }
 
 interface District {
-  id: number
-  name: string
-  state_id: number
+  distrcitid: number
+  distrcitname: string
+  stateid: number
 }
 
 interface Zone {
@@ -462,8 +462,8 @@ const ManageAgents = () => {
                   >
                     <option value="">Select Country</option>
                     {countries.map(country => (
-                      <option key={country.id} value={country.id}>
-                        {country.name}
+                      <option key={country.countryid} value={country.countryid}>
+                        {country.countryname}
                       </option>
                     ))}
                   </Form.Select>
@@ -481,8 +481,8 @@ const ManageAgents = () => {
                   >
                     <option value="">Select State</option>
                     {states.map(state => (
-                      <option key={state.id} value={state.id}>
-                        {state.name}
+                      <option key={state.stateid} value={state.stateid}>
+                        {state.statename}
                       </option>
                     ))}
                   </Form.Select>
@@ -503,8 +503,8 @@ const ManageAgents = () => {
                   >
                     <option value="">Select District</option>
                     {districts.map(district => (
-                      <option key={district.id} value={district.id}>
-                        {district.name}
+                      <option key={district.distrcitid} value={district.distrcitid}>
+                        {district.distrcitname}
                       </option>
                     ))}
                   </Form.Select>
@@ -614,3 +614,4 @@ const ManageAgents = () => {
 }
 
 export default ManageAgents 
+
