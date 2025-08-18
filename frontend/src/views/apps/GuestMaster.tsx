@@ -305,9 +305,11 @@ const GuestMasterComponent: React.FC = () => {
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     const { name, value, type } = e.target;
-    
+
     if (name === 'countryid') {
       const countryId = value ? parseInt(value) : undefined;
       setSelectedCountry(countryId);
@@ -392,16 +394,16 @@ const GuestMasterComponent: React.FC = () => {
         ...prev,
         [name]: value
       }));
-      
+
       // Handle autocomplete
       if (value.length > 0) {
         const pool = (cities && cities.length > 0
-          ? cities.map(c => c.city_name)
+          ? cities.map(c => c.cityname)
           : suggestionCityNames) || [];
         const suggestions = pool
           .filter((n) => n && n.toLowerCase().includes(value.toLowerCase()))
           .filter((v, i, arr) => arr.indexOf(v) === i);
-        
+
         if (name === 'arrivalFrom') {
           setArrivalSuggestions(suggestions);
           setShowArrivalSuggestions(true);
@@ -439,7 +441,7 @@ const GuestMasterComponent: React.FC = () => {
 
   const getTopCitySuggestions = (limit = 10): string[] => {
     const names = (cities && cities.length > 0
-      ? cities.map(c => c.city_name)
+      ? cities.map(c => c.cityname)
       : suggestionCityNames).filter(Boolean);
     const unique = Array.from(new Set(names));
     return unique.slice(0, limit);
@@ -614,7 +616,7 @@ const GuestMasterComponent: React.FC = () => {
   // API functions
   const getAllGuests = async (): Promise<GuestMaster[]> => {
     try {
-      const response = await apiCore.get('/guest-masters');
+      const response = await apiCore.get('/guest-masters', {});
       return response.data || [];
     } catch (error) {
       console.error('Error fetching guests:', error);
@@ -764,7 +766,7 @@ const GuestMasterComponent: React.FC = () => {
           setCities(updatedCities);
           
           // Set the newly added city as selected
-          const newCity = updatedCities.find(city => city.city_name === otherCityName.trim());
+          const newCity = updatedCities.find(city => city.cityname === otherCityName.trim());
           if (newCity) {
             setFormData(prev => ({
               ...prev,
@@ -952,7 +954,7 @@ const GuestMasterComponent: React.FC = () => {
                     <option value="">Select Country</option>
                     {countries && countries.length > 0 && countries.map(country => (
                       <option key={country.countryid} value={country.countryid}>
-                        {country.country_name}
+                        {country.countryname}
                       </option>
                     ))}
                   </Form.Select>
@@ -970,7 +972,7 @@ const GuestMasterComponent: React.FC = () => {
                     <option value="">Select State</option>
                     {states && states.length > 0 && states.map(state => (
                       <option key={state.stateid} value={state.stateid}>
-                        {state.state_name}
+                        {state.statename}
                       </option>
                     ))}
                   </Form.Select>
@@ -988,7 +990,7 @@ const GuestMasterComponent: React.FC = () => {
                     <option value="">Select City</option>
                     {cities && cities.length > 0 && cities.map(city => (
                       <option key={city.cityid} value={city.cityid}>
-                        {city.city_name}
+                        {city.cityname}
                       </option>
                     ))}
                     <option value="other">Other (Add New City)</option>
@@ -1366,7 +1368,7 @@ const GuestMasterComponent: React.FC = () => {
                   <Form.Control
                     type="file"
                     accept="image/*"
-                    onChange={(e) => handleFileChange(e, 'adhar_front')}
+                    onChange={(e) => handleFileChange(e as React.ChangeEvent<HTMLInputElement>, 'adhar_front')}
                   />
                   {adharFrontFile && (
                     <small className="text-muted">Selected: {adharFrontFile.name}</small>
@@ -1380,7 +1382,7 @@ const GuestMasterComponent: React.FC = () => {
                     <Form.Control
                       type="file"
                       accept="image/*"
-                      onChange={(e) => handleFileChange(e, 'adhar_back')}
+                      onChange={(e) => handleFileChange(e as React.ChangeEvent<HTMLInputElement>, 'adhar_back')}
                     />
                     {adharBackFile && (
                       <small className="text-muted">Selected: {adharBackFile.name}</small>
@@ -1394,7 +1396,7 @@ const GuestMasterComponent: React.FC = () => {
                   <Form.Control
                     type="file"
                     accept="image/*"
-                    onChange={(e) => handleFileChange(e, 'pan_no')}
+                    onChange={(e) => handleFileChange(e as React.ChangeEvent<HTMLInputElement>, 'pan_no')}
                   />
                   {formData.pan_no && (
                     <small className="text-muted">Selected: {formData.pan_no}</small>
@@ -1407,7 +1409,7 @@ const GuestMasterComponent: React.FC = () => {
                   <Form.Control
                     type="file"
                     accept="image/*"
-                    onChange={(e) => handleFileChange(e, 'driving_license')}
+                    onChange={(e) => handleFileChange(e as React.ChangeEvent<HTMLInputElement>, 'driving_license')}
                   />
                   {formData.driving_license && (
                     <small className="text-muted">Selected: {formData.driving_license}</small>
@@ -1420,7 +1422,7 @@ const GuestMasterComponent: React.FC = () => {
                   <Form.Control
                     type="file"
                     accept="image/*"
-                    onChange={(e) => handleFileChange(e, 'Other')}
+                    onChange={(e) => handleFileChange(e as React.ChangeEvent<HTMLInputElement>, 'Other')}
                   />
                   {formData.Other && (
                     <small className="text-muted">Selected: {formData.Other}</small>
@@ -1486,7 +1488,7 @@ const GuestMasterComponent: React.FC = () => {
               <Form.Label>Country</Form.Label>
               <Form.Control
                 type="text"
-                value={countries.find(c => c.countryid === selectedCountry)?.country_name || ''}
+                value={countries.find(c => c.countryid === selectedCountry)?.countryname || ''}
                 disabled
               />
             </Form.Group>
@@ -1494,7 +1496,7 @@ const GuestMasterComponent: React.FC = () => {
               <Form.Label>State</Form.Label>
               <Form.Control
                 type="text"
-                value={states.find(s => s.stateid === selectedState)?.state_name || ''}
+                value={states.find(s => s.stateid === selectedState)?.statename || ''}
                 disabled
               />
             </Form.Group>

@@ -28,7 +28,7 @@ export interface DistrictItem {
 }
 export interface CityItem {
   cityid: number;
-  city_name: string;
+  cityname: string;
   stateid: number;
     status: number | string;
 }
