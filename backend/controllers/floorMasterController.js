@@ -74,11 +74,7 @@ const updateFloor = (req, res) => {
   }
 
   try {
-    const database = db();
-    if (!database) {
-      return res.status(500).json({ error: 'Database connection not available' });
-    }
-
+    // Remove the incorrect database() call since db is already a connection
     const stmt = db.prepare(`
       UPDATE ldg_mstfloormaster 
       SET floor_name = ?, display_name = ?, status = ?, Hotel_id = ?, Updated_by_id = ?, Updated_date = CURRENT_TIMESTAMP
@@ -107,15 +103,13 @@ const updateFloor = (req, res) => {
 // Delete floor
 const deleteFloor = (req, res) => {
   const { id } = req.params;
-  const currentUserId = req.user ? req.user.id : null; // Get current user ID from request
   
   try {
     const stmt = db.prepare(`
-      UPDATE ldg_mstfloormaster 
-      SET status = 0, Updated_by_id = ?, Updated_date = CURRENT_TIMESTAMP
+      DELETE FROM ldg_mstfloormaster 
       WHERE floorid = ?
     `);
-    const result = stmt.run(currentUserId, id);
+    const result = stmt.run(id);
     
     if (result.changes === 0) {
       return res.status(404).json({ error: 'Floor not found' });
