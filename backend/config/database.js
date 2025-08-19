@@ -312,6 +312,10 @@ const initDatabase = () => {
       )
     `);
 
+
+
+
+
     // Create city master table
     db.exec(`
       CREATE TABLE IF NOT EXISTS ldg_citymaster (
@@ -421,6 +425,30 @@ const initDatabase = () => {
         FOREIGN KEY (hotelid) REFERENCES hotels (id)
       )
     `);
+
+db.exec(`
+  CREATE TABLE IF NOT EXISTS ldg_mstroommaster (
+    room_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    room_no TEXT NOT NULL,
+    room_name TEXT NOT NULL,
+    display_name TEXT,
+    category_id INTEGER NOT NULL,
+    room_ext_no TEXT,
+    room_status TEXT DEFAULT 'available',
+    department_id INTEGER,
+    blockid INTEGER,
+    floorid INTEGER,
+    hotel_id INTEGER,
+    status INTEGER DEFAULT 1,
+    created_by_id INTEGER,
+    created_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_by_id INTEGER,
+    updated_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (blockid) REFERENCES ldg_mstblockmaster(blockid),
+    FOREIGN KEY (floorid) REFERENCES ldg_mstfloormaster(floorid)
+  )
+`);
+
 
     
     console.log('✅ Master tables and user tables created successfully!');
