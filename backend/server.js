@@ -69,6 +69,7 @@ app.use('/api/fragments', fragmentRoutes);
 app.use('/api/city-masters', cityMasterRoutes);
 app.use('/api/company-masters', companyMasterRoutes);
 app.use('/api/guest-masters', guestMasterRoutes);
+app.use('/api/room-masters', roomMasterRoutes);
 
 
 

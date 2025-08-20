@@ -1,4 +1,4 @@
-// src/utils/masterFetchers.ts
+
 
 import { toast } from 'react-toastify';
 
@@ -214,6 +214,17 @@ export const fetchBlocks = async (
   }
 };
 
+export const fetchBlocksByHotel = async (hotelId: number): Promise<BlockItem[]> => {
+  try {
+    const res = await fetch(`http://localhost:3001/api/blocks/hotel/${hotelId}`);
+    const data: BlockItem[] = await res.json();
+    return data;
+  } catch (err) {
+    toast.error('Failed to fetch blocks for hotel');
+    console.error('Fetch blocks error:', err);
+    return [];
+  }
+};
 
 export const fetchFloors = async (
   setFloors: (data: FloorItem[]) => void,
@@ -229,7 +240,19 @@ export const fetchFloors = async (
     }
   } catch (err) {
     toast.error('Failed to fetch floors');
-    console.error('Fetch states error:', err);
+    console.error('Fetch states error', err);
+  }
+};
+
+export const fetchFloorsByHotel = async (hotelId: number): Promise<FloorItem[]> => {
+  try {
+    const res = await fetch(`http://localhost:3001/api/floors/hotel/${hotelId}`);
+    const data: FloorItem[] = await res.json();
+    return data;
+  } catch (err) {
+    toast.error('Failed to fetch floors for hotel');
+    console.error('Fetch floors error:', err);
+    return [];
   }
 };
 

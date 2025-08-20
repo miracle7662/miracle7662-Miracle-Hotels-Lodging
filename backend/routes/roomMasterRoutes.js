@@ -1,20 +1,44 @@
 const express = require('express');
 const router = express.Router();
-const roomMasterController = require('../controllers/roomMasterController');
-const auth = require('../middleware/auth');
+const {
+  getAllRooms,
+  getRoomById,
+  createRoom,
+  updateRoom,
+  deleteRoom,
+  getRoomsByHotelId,
+  getRoomsForCurrentUser,
+} = require('../controllers/roomMasterController');
+const { verifyToken } = require('../middleware/auth');
 
-// Public routes (or protected based on your needs)
-router.get('/', roomMasterController.getAllRooms);
-router.get('/:id', roomMasterController.getRoomById);
-router.get('/hotel/:hotelId', roomMasterController.getRoomsByHotelId);
-router.get('/block/:blockId', roomMasterController.getRoomsByBlockId);
-router.get('/floor/:floorId', roomMasterController.getRoomsByFloorId);
-router.get('/status/available', roomMasterController.getAvailableRooms);
+// Validate ID parameters
+const validateId = (req, res, next) => {
+  const id = req.params.id || req.params.hotelId;
+  if (!id || isNaN(id)) {
+    return res.status(400).json({ error: 'Invalid ID parameter' });
+  }
+  next();
+};
 
-// Protected routes
-router.post('/', auth, roomMasterController.createRoom);
-router.put('/:id', auth, roomMasterController.updateRoom);
-router.delete('/:id', auth, roomMasterController.deleteRoom);
-router.get('/user/current', auth, roomMasterController.getRoomsForCurrentUser);
+// GET all rooms (authenticated)
+router.get('/', verifyToken, getAllRooms);
+
+// GET rooms for current user's hotel (authenticated)
+router.get('/my-rooms', verifyToken, getRoomsForCurrentUser);
+
+// GET single room by ID (authenticated)
+router.get('/:id', verifyToken, validateId, getRoomById);
+
+// GET rooms by hotel ID (authenticated)
+router.get('/hotel/:hotelId', verifyToken, validateId, getRoomsByHotelId);
+
+// POST create new room (authenticated)
+router.post('/', verifyToken, createRoom);
+
+// PUT update room (authenticated)
+router.put('/:id', verifyToken, validateId, updateRoom);
+
+// DELETE room (soft delete, authenticated)
+router.delete('/:id', verifyToken, validateId, deleteRoom);
 
 module.exports = router;

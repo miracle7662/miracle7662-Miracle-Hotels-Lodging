@@ -536,3 +536,5 @@ const HotelTypeMaster = () => {
 };
 
 export default HotelTypeMaster; 
+
+

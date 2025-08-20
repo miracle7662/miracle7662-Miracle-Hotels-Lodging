@@ -314,6 +314,13 @@ const MENU_ITEMS: MenuItemTypes[] = [
         parentKey: 'frontDeskMasters',
         roles: ['hotel'],
       },
+      {
+        key:'Roommaster',
+        label:'Room Master',
+        url:'/apps/Roommaster',
+        parentKey:'frontDeskMasters',
+        roles:['hotel'],
+      }
     ],
   },
 
@@ -2761,6 +2768,13 @@ const HOTEL_USER_MENU_ITEMS: MenuItemTypes[] = [
         parentKey: 'frontDeskMasters',
         roles: ['hotel'],
       },
+      {
+        key:'Roommaster',
+        label:'Room Master',
+        url:'/apps/Roommaster',
+        parentKey:'frontDeskMasters',
+        roles:['hotel']
+      }
     ],
   },
   {
