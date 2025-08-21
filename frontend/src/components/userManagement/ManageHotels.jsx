@@ -42,6 +42,7 @@ import {
 import { getAllMarkets } from '../../services/marketService';
 import { getAllHotelTypes } from '../../services/hotelTypeService';
 import { stateService } from '../../services/stateService';
+import{fetchStates}from '@/utils/commonfunction';
 
 const ManageHotels = () => {
   // State management
@@ -1001,8 +1002,8 @@ const ManageHotels = () => {
                   >
                     <option value="">Select state</option>
                     {states.map(state => (
-                      <option key={state.id} value={state.id}>
-                        {state.name}
+                      <option key={state.stateid} value={state.stateid}>
+                        {state.state_name}
                       </option>
                     ))}
                   </Form.Select>
@@ -1185,3 +1186,8 @@ const ManageHotels = () => {
 };
 
 export default ManageHotels; 
+
+
+
+
+
