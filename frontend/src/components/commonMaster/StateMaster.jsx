@@ -1515,7 +1515,7 @@ const StateMaster = () => {
             </div>
           ) : (
             <>
-              <div className="table-responsive" style={{ maxHeight: '500px', overflowY: 'auto' }}>
+              <div className="table-responsive" style={{ maxHeight: '350px', overflowY: 'auto' }}>
                 <Table hover className="mb-0">
                   <thead className="table-light sticky-top bg-white" style={{ zIndex: 1 }}>
                     <tr>
@@ -1773,3 +1773,7 @@ const StateMaster = () => {
 };
 
 export default StateMaster;
+
+
+
+

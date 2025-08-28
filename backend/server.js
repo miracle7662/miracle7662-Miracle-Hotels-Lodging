@@ -26,6 +26,7 @@ const fragmentRoutes = require('./routes/fragmentRoutes');
 const cityMasterRoutes = require('./routes/cityMasterRoutes');
 const companyMasterRoutes = require('./routes/companyMasterRoutes');
 const guestMasterRoutes = require('./routes/guestMasterRoutes');
+const roomMasterRoutes = require('./routes/roomMasterRoutes');
 
 
 
@@ -68,6 +69,7 @@ app.use('/api/fragments', fragmentRoutes);
 app.use('/api/city-masters', cityMasterRoutes);
 app.use('/api/company-masters', companyMasterRoutes);
 app.use('/api/guest-masters', guestMasterRoutes);
+app.use('/api/room-masters', roomMasterRoutes);
 
 
 
@@ -97,8 +99,7 @@ app.get("/", (req, res) => {
             fragments: "/api/fragments",
             cityMasters: "/api/city-masters",
             guestMasters: "/api/guest-masters",
-
-
+            roomMasters: "/api/room-masters",
 
         }
     });

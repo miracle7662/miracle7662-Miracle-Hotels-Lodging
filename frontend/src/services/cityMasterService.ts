@@ -6,7 +6,7 @@ export interface CityMaster {
   cityid?: number;
   countryid: number;
   stateid: number;
-  districtid: number;
+  distrcitid: number;
   cityname: string;
   status?: number;
   created_by_id?: number;
@@ -21,7 +21,7 @@ export interface CityMaster {
 export interface CreateCityMasterRequest {
   countryid: number;
   stateid: number;
-  districtid: number;
+  distrcitid: number;
   cityname: string;
   status?: number;
 }
@@ -29,7 +29,7 @@ export interface CreateCityMasterRequest {
 // Get all cities
 export const getAllCities = async (): Promise<CityMaster[]> => {
   try {
-    const response = await apiCore.get('/city-masters');
+    const response = await apiCore.get('/city-masters', {});
     return response.data.data || response.data;
   } catch (error) {
     console.error('Error fetching cities:', error);

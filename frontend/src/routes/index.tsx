@@ -42,6 +42,7 @@ const RoomCategoryMaster = React.lazy(() => import('../views/apps/Roomcategoryma
 const FragmentMaster = React.lazy(() => import('../views/apps/Fragment'))
 const CityMaster = React.lazy(() => import('../views/apps/CityMaster'))
 const CompanyMaster = React.lazy(() => import('../views/apps/Company'))
+const Roommaster=React.lazy(()=> import('../views/apps/Roommaster'))
 const GuestMaster = React.lazy(() => import('../views/apps/GuestMaster'))
 
 const BookMaster = React.lazy(() => import('../views/apps/BookMaster'))
@@ -477,9 +478,12 @@ const appsRoutes: RoutesProps = {
            element:<GuestMaster/>,  
            route:PrivateRoute 
           },
-
-         
-
+          {
+            path:'/apps/Roommaster',
+            name:'RoomMaster',
+            element:<Roommaster/>,
+            route:PrivateRoute
+          },
         {
           path: '/masterpages/states',
           name: 'States',

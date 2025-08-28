@@ -1,11 +1,11 @@
-// src/utils/masterFetchers.ts
+
 
 import { toast } from 'react-toastify';
 
 
 export interface CountryItem {
   countryid: number;
-  country_name: string;
+  countryname: string;
   country_code: string;
   status: number | string;
 
@@ -14,21 +14,21 @@ export interface CountryItem {
 export interface StateItem {
   
   stateid: number;
-  state_name: string;
+  statename: string;
   status: number | string;
 
   
 } 
 
 export interface DistrictItem {
-  districtid: number;
-  district_name: string;
+  distrcitid: number;
+  distrcitname: string;
   stateid: number;
   status: number | string;
 }
 export interface CityItem {
   cityid: number;
-  city_name: string;
+  cityname: string;
   stateid: number;
     status: number | string;
 }
@@ -98,7 +98,7 @@ export const fetchDistricts = async (
     const data: DistrictItem[] = await res.json();
     setDistricts(data);
     if (data.length > 0 && !currentDistrictId && setDistrictId) {
-      setDistrictId(data[0].districtid);
+      setDistrictId(data[0].distrcitid);
     }
   } catch (err) {
     toast.error('Failed to fetch districts');
@@ -214,6 +214,17 @@ export const fetchBlocks = async (
   }
 };
 
+export const fetchBlocksByHotel = async (hotelId: number): Promise<BlockItem[]> => {
+  try {
+    const res = await fetch(`http://localhost:3001/api/blocks/hotel/${hotelId}`);
+    const data: BlockItem[] = await res.json();
+    return data;
+  } catch (err) {
+    toast.error('Failed to fetch blocks for hotel');
+    console.error('Fetch blocks error:', err);
+    return [];
+  }
+};
 
 export const fetchFloors = async (
   setFloors: (data: FloorItem[]) => void,
@@ -229,7 +240,19 @@ export const fetchFloors = async (
     }
   } catch (err) {
     toast.error('Failed to fetch floors');
-    console.error('Fetch states error:', err);
+    console.error('Fetch states error', err);
+  }
+};
+
+export const fetchFloorsByHotel = async (hotelId: number): Promise<FloorItem[]> => {
+  try {
+    const res = await fetch(`http://localhost:3001/api/floors/hotel/${hotelId}`);
+    const data: FloorItem[] = await res.json();
+    return data;
+  } catch (err) {
+    toast.error('Failed to fetch floors for hotel');
+    console.error('Fetch floors error:', err);
+    return [];
   }
 };
 

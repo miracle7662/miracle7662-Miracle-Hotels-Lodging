@@ -332,7 +332,8 @@ const FloorMaster = () => {
       const submitData = {
         floor_name: formData.floor_name,
         display_name: formData.display_name,
-        Hotel_id: currentHotel ? currentHotel.id : (formData.Hotel_id ? parseInt(formData.Hotel_id) : undefined)
+        Hotel_id: currentHotel ? currentHotel.id : (formData.Hotel_id ? parseInt(formData.Hotel_id) : undefined),
+        status: formData.status
       };
 
       console.log('📤 Submitting floor data:', submitData);

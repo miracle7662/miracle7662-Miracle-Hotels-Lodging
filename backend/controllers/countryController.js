@@ -36,15 +36,15 @@ const getCountryById = (req, res) => {
 
 // Create new country
 const createCountry = (req, res) => {
-  const { countryname, countrycode, countrycapital } = req.body;
-  
+  const { countryname, countrycode, countrycapital,status=1 } = req.body;
+
   if (!countryname || !countrycode) {
     return res.status(400).json({ error: 'Country name and code are required' });
   }
 
   try {
-    const stmt = db.prepare('INSERT INTO ldg_countries (countryname, countrycode, countrycapital) VALUES (?, ?, ?)');
-    const result = stmt.run(countryname, countrycode, countrycapital);
+    const stmt = db.prepare('INSERT INTO ldg_countries (countryname, countrycode, countrycapital,status) VALUES (?, ?, ?, ?)');
+    const result = stmt.run(countryname, countrycode, countrycapital,status);
     
     // Get the newly created country with all fields
     const newCountry = db.prepare('SELECT * FROM ldg_countries WHERE countryid = ?').get(result.lastInsertRowid);
@@ -60,7 +60,7 @@ const createCountry = (req, res) => {
 
 // Update country
 const updateCountry = (req, res) => {
-  const { countryname, countrycode, countrycapital } = req.body;
+  const { countryname, countrycode, countrycapital,status=1 } = req.body;
   const { id } = req.params;
 
   if (!countryname || !countrycode) {
@@ -68,9 +68,9 @@ const updateCountry = (req, res) => {
   }
 
   try {
-    const stmt = db.prepare('UPDATE ldg_countries SET countryname = ?, countrycode = ?, countrycapital = ?, updated_date = CURRENT_TIMESTAMP WHERE countryid = ?');
-    const result = stmt.run(countryname, countrycode, countrycapital, id);
-    
+    const stmt = db.prepare('UPDATE ldg_countries SET countryname = ?, countrycode = ?, countrycapital = ?, status = ?, updated_date = CURRENT_TIMESTAMP WHERE countryid = ?');
+    const result = stmt.run(countryname, countrycode, countrycapital, status, id);
+
     if (result.changes > 0) {
       res.json({ message: 'Country updated successfully!' });
     } else {
@@ -104,3 +104,6 @@ module.exports = {
   updateCountry,
   deleteCountry
 };
+
+
+

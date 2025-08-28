@@ -317,13 +317,17 @@ const initDatabase = () => {
       )
     `);
 
+
+
+
+
     // Create city master table
     db.exec(`
       CREATE TABLE IF NOT EXISTS ldg_citymaster (
         cityid INTEGER PRIMARY KEY AUTOINCREMENT,
         countryid INTEGER NOT NULL,
         stateid INTEGER NOT NULL,
-        districtid INTEGER NOT NULL,
+        distrcitid INTEGER NOT NULL,
         cityname TEXT NOT NULL,
         status INTEGER DEFAULT 1,
         created_by_id INTEGER,
@@ -332,9 +336,10 @@ const initDatabase = () => {
         updated_date DATETIME DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (countryid) REFERENCES ldg_countries(countryid),
         FOREIGN KEY (stateid) REFERENCES ldg_states(stateid),
-        FOREIGN KEY (districtid) REFERENCES ldg_districts(distrcitid)
+        FOREIGN KEY (distrcitid) REFERENCES ldg_districts(distrcitid)
       )
     `);
+
 
     // Create company master table
     db.exec(`
@@ -425,6 +430,8 @@ const initDatabase = () => {
         FOREIGN KEY (hotelid) REFERENCES hotels (id)
       )
     `);
+
+    
 
     
     console.log('✅ Master tables and user tables created successfully!');

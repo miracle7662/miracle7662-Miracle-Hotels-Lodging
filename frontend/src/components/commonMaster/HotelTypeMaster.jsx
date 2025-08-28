@@ -287,7 +287,7 @@ const HotelTypeMaster = () => {
             </div>
           ) : (
             <>
-              <div className="table-responsive" style={{ maxHeight: '500px', overflowY: 'auto' }}>
+              <div className="table-responsive" style={{ maxHeight: '340px', overflowY: 'auto' }}>
                 <Table hover className="mb-0">
                   <thead className="table-light sticky-top bg-white" style={{ zIndex: 1 }}>
                     <tr>
@@ -536,3 +536,5 @@ const HotelTypeMaster = () => {
 };
 
 export default HotelTypeMaster; 
+
+

@@ -153,7 +153,7 @@ const CompanyMasterComponent: React.FC = () => {
       setLoading(true);
       // Try to load companies, but don't block other masters if it fails/not implemented yet
       try {
-        const response = await apiCore.get('/company-masters');
+        const response = await apiCore.get('/company-masters', {});
         setCompanies(response.data || []);
       } catch (err) {
         // Silently ignore for now; master endpoints may not be ready
@@ -184,9 +184,11 @@ const CompanyMasterComponent: React.FC = () => {
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     const { name, value, type } = e.target;
-    
+  
     if (name === 'is_credit_allow' && type === 'checkbox') {
       const checked = (e.target as HTMLInputElement).checked;
       setShowCreditLimit(checked);
@@ -506,7 +508,7 @@ const CompanyMasterComponent: React.FC = () => {
                      <option value="">Select Country</option>
                      {countries.map(country => (
                        <option key={country.countryid} value={country.countryid}>
-                         {country.country_name}
+                         {country.countryname}
                        </option>
                      ))}
                    </Form.Select>
@@ -532,7 +534,7 @@ const CompanyMasterComponent: React.FC = () => {
                      <option value="">Select State</option>
                      {states.map(state => (
                        <option key={state.stateid} value={state.stateid}>
-                         {state.state_name}
+                         {state.statename}
                        </option>
                      ))}
                    </Form.Select>
@@ -556,7 +558,7 @@ const CompanyMasterComponent: React.FC = () => {
                      <option value="">Select City</option>
                       {cities.map(city => (
                         <option key={city.cityid} value={city.cityid}>
-                          {city.city_name}
+                          {city.cityname}
                         </option>
                       ))}
                    </Form.Select>

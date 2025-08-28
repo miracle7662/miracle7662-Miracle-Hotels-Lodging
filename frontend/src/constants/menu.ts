@@ -314,6 +314,13 @@ const MENU_ITEMS: MenuItemTypes[] = [
         parentKey: 'frontDeskMasters',
         roles: ['hotel'],
       },
+      {
+        key:'Roommaster',
+        label:'Room Master',
+        url:'/apps/Roommaster',
+        parentKey:'frontDeskMasters',
+        roles:['hotel'],
+      }
     ],
   },
 
@@ -2719,13 +2726,13 @@ const HOTEL_USER_MENU_ITEMS: MenuItemTypes[] = [
         parentKey: 'frontDeskMasters',
         roles: ['hotel', 'user'],
       },
-      {
-        key: 'nationality',
-        label: 'Nationality Master',
-        url: '/apps/nationalities',
-        parentKey: 'frontDeskMasters',
-        roles: ['hotel'],
-      },
+      // {
+      //   key: 'nationality',
+      //   label: 'Nationality Master',
+      //   url: '/apps/nationalities',
+      //   parentKey: 'frontDeskMasters',
+      //   roles: ['hotel'],
+      // },
       {
         key: 'newspaper',
         label: 'Newspaper Master',
@@ -2761,6 +2768,13 @@ const HOTEL_USER_MENU_ITEMS: MenuItemTypes[] = [
         parentKey: 'frontDeskMasters',
         roles: ['hotel'],
       },
+      {
+        key:'Roommaster',
+        label:'Room Master',
+        url:'/apps/Roommaster',
+        parentKey:'frontDeskMasters',
+        roles:['hotel']
+      }
     ],
   },
   {
